@@ -1,3 +1,7 @@
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class stores the basic state necessary for the A* algorithm to compute a
  * path across a map.  This state includes a collection of "open waypoints" and
@@ -9,7 +13,8 @@ public class AStarState
 {
     /** This is a reference to the map that the A* algorithm is navigating. **/
     private Map2D map;
-
+    private Map<Location, Waypoint> openWaypoints = new HashMap<>();
+    private Map<Location, Waypoint> closedWaypoints = new HashMap<>();
 
     /**
      * Initialize a new state object for the A* pathfinding algorithm to use.
@@ -35,8 +40,9 @@ public class AStarState
      **/
     public Waypoint getMinOpenWaypoint()
     {
-        // TODO:  Implement.
-        return null;
+        return openWaypoints.values().stream()
+                   .min(Comparator.comparing(Waypoint::getTotalCost))
+                   .get();
     }
 
     /**
@@ -50,7 +56,14 @@ public class AStarState
      **/
     public boolean addOpenWaypoint(Waypoint newWP)
     {
-        // TODO:  Implement.
+        if (openWaypoints.containsKey(newWP.getLocation())) {
+            if (openWaypoints.get(newWP.getLocation()).getPreviousCost() > newWP.getPreviousCost()) {
+                openWaypoints.put(newWP.getLocation(), newWP);
+                return true;
+            }
+        } else {
+            openWaypoints.put(newWP.getLocation(), newWP);
+        }
         return false;
     }
 
@@ -58,8 +71,7 @@ public class AStarState
     /** Returns the current number of open waypoints. **/
     public int numOpenWaypoints()
     {
-        // TODO:  Implement.
-        return 0;
+        return openWaypoints.size();
     }
 
 
@@ -69,7 +81,7 @@ public class AStarState
      **/
     public void closeWaypoint(Location loc)
     {
-        // TODO:  Implement.
+        closedWaypoints.put(loc, openWaypoints.remove(loc));
     }
 
     /**
@@ -78,8 +90,7 @@ public class AStarState
      **/
     public boolean isLocationClosed(Location loc)
     {
-        // TODO:  Implement.
-        return false;
+        return closedWaypoints.containsKey(loc);
     }
 }
 
