@@ -1,2 +1,3 @@
-# ktpLab3
-Laboratory work performed for the MTUCI in the frame of course "Cross-platform Programming Technologies"
+# Курс "Кроссплатформенные технологии программирования". Лабораторная работа №3 "Алгоритм A*"
+Сборка: из корневой директории проекта вызвать "mvn compile"
+Запуск: из корневой директории проекта вызвать "mvn exec:java -Dexec.mainClass="AStarApp""
